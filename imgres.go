@@ -8,9 +8,10 @@ import (
 )
 
 var height, width int
-var in, out string
+var fit, in, out string
 
 func init() {
+	flag.StringVar(&fit, "fit", string(Contain), "fitting of scaled image")
 	flag.StringVar(&in, "in", "", "input file (optional)")
 	flag.StringVar(&out, "out", "", "out file (optional)")
 	flag.IntVar(&height, "height", 0, "max height of out file")
@@ -35,7 +36,7 @@ func main() {
 		FatalError(err)
 	}
 
-	dest, err := Scale(src, width, height)
+	dest, err := Scale(src, image.Pt(width, height), Fit(fit))
 	if err != nil {
 		FatalError(err)
 	}
