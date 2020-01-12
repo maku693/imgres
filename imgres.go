@@ -23,7 +23,7 @@ func init() {
 func main() {
 	flag.Parse()
 
-	if err := resizer.Resize(height, width, fit, in, out); err != nil {
+	if err := resizer.Resize(in, out, height, width, fit); err != nil {
 		FatalError(err)
 	}
 }

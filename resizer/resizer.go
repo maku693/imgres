@@ -2,7 +2,7 @@ package resizer
 
 import "image"
 
-func Resize(height int, width int, fit string, in string, out string) error {
+func Resize(in string, out string, height int, width int, fit string) error {
 	inFile, err := InFile(in)
 	if err != nil {
 		return err
