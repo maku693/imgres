@@ -10,7 +10,7 @@ import (
 
 func Scale(src image.Image, width int, height int) (image.Image, error) {
 	if width == 0 && height == 0 {
-		return nil, fmt.Errorf("scale: either width or height must be specified and non-zero")
+		return nil, fmt.Errorf("either width or height must be specified and non-zero")
 	}
 
 	srcBounds := src.Bounds()
