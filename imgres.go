@@ -2,15 +2,16 @@ package main
 
 import (
 	"flag"
-	"image"
 	"log"
+
+	"github.com/maku693/imgres/resizer"
 )
 
 var height, width int
 var fit, in, out string
 
 func init() {
-	flag.StringVar(&fit, "fit", string(Contain), "fitting of scaled image")
+	flag.StringVar(&fit, "fit", string(resizer.Contain), "fitting of scaled image")
 	flag.StringVar(&in, "in", "", "input file (optional)")
 	flag.StringVar(&out, "out", "", "out file (optional)")
 	flag.IntVar(&height, "height", 0, "max height of out file")
@@ -22,27 +23,7 @@ func init() {
 func main() {
 	flag.Parse()
 
-	inFile, err := InFile(in)
-	if err != nil {
-		FatalError(err)
-	}
-
-	outFile, err := OutFile(out)
-	if err != nil {
-		FatalError(err)
-	}
-
-	img, format, err := image.Decode(inFile)
-	if err != nil {
-		FatalError(err)
-	}
-
-	scaled, err := Scale(img, image.Pt(width, height), Fit(fit))
-	if err != nil {
-		FatalError(err)
-	}
-
-	if err := Encode(outFile, scaled, format); err != nil {
+	if err := resizer.Resize(height, width, fit, in, out); err != nil {
 		FatalError(err)
 	}
 }
