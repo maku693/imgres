@@ -4,7 +4,6 @@ import (
 	"flag"
 	"image"
 	"log"
-	"os"
 )
 
 var height, width int
@@ -16,6 +15,8 @@ func init() {
 	flag.StringVar(&out, "out", "", "out file (optional)")
 	flag.IntVar(&height, "height", 0, "max height of out file")
 	flag.IntVar(&width, "width", 0, "max width of out file")
+
+	log.SetFlags(0)
 }
 
 func main() {
@@ -46,8 +47,6 @@ func main() {
 	}
 }
 
-var logger = log.New(os.Stderr, "", 0)
-
 func FatalError(err error) {
-	logger.Fatalln("fatal: " + err.Error())
+	log.Fatalln("fatal: " + err.Error())
 }
