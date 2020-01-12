@@ -17,7 +17,6 @@ func Encode(w io.Writer, i image.Image, format string) error {
 		return jpeg.Encode(w, i, nil)
 	case "gif":
 		return gif.Encode(w, i, nil)
-	default:
-		return fmt.Errorf("encode: invalid format: %s", format)
 	}
+	return fmt.Errorf("encode: invalid format: %s", format)
 }
