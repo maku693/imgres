@@ -23,7 +23,7 @@ func coverer(src, tgt image.Point) float64 {
 	return math.Max(float64(tgt.X)/float64(src.X), float64(tgt.Y)/float64(src.Y))
 }
 
-func FitRect(r image.Rectangle, size image.Point, fit Fit) (image.Rectangle, error) {
+func FitSize(src image.Point, tgt image.Point, fit Fit) (image.Point, error) {
 	var f fitter
 	switch fit {
 	case Contain:
@@ -31,18 +31,13 @@ func FitRect(r image.Rectangle, size image.Point, fit Fit) (image.Rectangle, err
 	case Cover:
 		f = coverer
 	default:
-		return image.Rectangle{}, fmt.Errorf("invalid fit: %s", fit)
+		return image.Point{}, fmt.Errorf("invalid fit: %s", fit)
 	}
 
-	rbounds := r.Bounds()
-	rsize := r.Size()
+	scale := f(src, tgt)
 
-	scale := f(rsize, size)
-
-	return image.Rect(
-		int(float64(rbounds.Min.X)*scale),
-		int(float64(rbounds.Min.Y)*scale),
-		int(float64(rbounds.Max.X)*scale),
-		int(float64(rbounds.Max.Y)*scale),
+	return image.Pt(
+		int(float64(src.X)*scale),
+		int(float64(src.Y)*scale),
 	), nil
 }
