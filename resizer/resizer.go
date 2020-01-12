@@ -9,7 +9,7 @@ import (
 	"io"
 )
 
-func Resize(in string, out string, height int, width int, fit string) error {
+func Resize(in string, out string, width int, height int, fit string) error {
 	inFile, err := InFile(in)
 	if err != nil {
 		return err
