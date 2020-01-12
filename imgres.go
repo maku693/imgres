@@ -24,10 +24,6 @@ func main() {
 	flag.Parse()
 
 	if err := resizer.Resize(in, out, width, height, fit); err != nil {
-		FatalError(err)
+		log.Fatalln("fatal: " + err.Error())
 	}
-}
-
-func FatalError(err error) {
-	log.Fatalln("fatal: " + err.Error())
 }
