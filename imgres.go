@@ -32,17 +32,17 @@ func main() {
 		FatalError(err)
 	}
 
-	src, format, err := image.Decode(inFile)
+	img, format, err := image.Decode(inFile)
 	if err != nil {
 		FatalError(err)
 	}
 
-	dest, err := Scale(src, image.Pt(width, height), Fit(fit))
+	scaled, err := Scale(img, image.Pt(width, height), Fit(fit))
 	if err != nil {
 		FatalError(err)
 	}
 
-	if err := Encode(outFile, dest, format); err != nil {
+	if err := Encode(outFile, scaled, format); err != nil {
 		FatalError(err)
 	}
 }
