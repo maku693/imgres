@@ -1,13 +1,13 @@
 package resizer
 
 import (
+	"bytes"
 	"errors"
 	"fmt"
 	"image"
 	_ "image/gif"
 	_ "image/jpeg"
 	_ "image/png"
-	"io"
 )
 
 func Resize(in string, out string, width int, height int, fit string) error {
@@ -20,17 +20,16 @@ func Resize(in string, out string, width int, height int, fit string) error {
 		return err
 	}
 
-	cfg, format, err := image.DecodeConfig(inFile)
+	inBuf := &bytes.Buffer{}
+	_, err = inBuf.ReadFrom(inFile)
 	if err != nil {
 		return err
 	}
+	inBytes := inBuf.Bytes()
 
-	_, err = inFile.Seek(0, io.SeekStart)
-	if err != nil {
-		return err
-	}
+	inReader := bytes.NewReader(inBytes)
 
-	outFile, err := OutFile(out)
+	cfg, format, err := image.DecodeConfig(inReader)
 	if err != nil {
 		return err
 	}
@@ -45,14 +44,38 @@ func Resize(in string, out string, width int, height int, fit string) error {
 	}
 	bounds := image.Rectangle{Max: size}
 
+	inReader.Reset(inBytes)
+	outBuf := &bytes.Buffer{}
+
 	switch format {
 	case "gif":
-		return ScaleGIF(inFile, outFile, bounds)
+		err = ScaleGIF(inReader, outBuf, bounds)
+		if err != nil {
+			return err
+		}
 	case "jpeg":
-		return ScaleJPEG(inFile, outFile, bounds)
+		err = ScaleJPEG(inReader, outBuf, bounds)
+		if err != nil {
+			return err
+		}
 	case "png":
-		return ScalePNG(inFile, outFile, bounds)
+		err = ScalePNG(inReader, outBuf, bounds)
+		if err != nil {
+			return err
+		}
 	default:
 		return fmt.Errorf("resizer: invalid format: %s", format)
 	}
+
+	outFile, err := OutFile(out)
+	if err != nil {
+		return err
+	}
+
+	_, err = outBuf.WriteTo(outFile)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
