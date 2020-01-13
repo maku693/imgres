@@ -20,17 +20,17 @@ func Resize(in string, out string, width int, height int, fit string) error {
 		return err
 	}
 
-	outFile, err := OutFile(out)
-	if err != nil {
-		return err
-	}
-
 	cfg, format, err := image.DecodeConfig(inFile)
 	if err != nil {
 		return err
 	}
 
 	_, err = inFile.Seek(0, io.SeekStart)
+	if err != nil {
+		return err
+	}
+
+	outFile, err := OutFile(out)
 	if err != nil {
 		return err
 	}
