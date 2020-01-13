@@ -16,7 +16,15 @@ const (
 type fitter func(src, tgt image.Point) float64
 
 func container(src, tgt image.Point) float64 {
-	return math.Min(float64(tgt.X)/float64(src.X), float64(tgt.Y)/float64(src.Y))
+	x := float64(tgt.X) / float64(src.X)
+	y := float64(tgt.Y) / float64(src.Y)
+	if x == 0 {
+		return y
+	}
+	if y == 0 {
+		return x
+	}
+	return math.Min(x, y)
 }
 
 func coverer(src, tgt image.Point) float64 {
