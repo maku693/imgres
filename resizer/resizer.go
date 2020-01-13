@@ -1,6 +1,7 @@
 package resizer
 
 import (
+	"errors"
 	"fmt"
 	"image"
 	_ "image/gif"
@@ -10,6 +11,10 @@ import (
 )
 
 func Resize(in string, out string, width int, height int, fit string) error {
+	if width <= 0 && height <= 0 {
+		return errors.New("either width or height must be provided and non-zero")
+	}
+
 	inFile, err := InFile(in)
 	if err != nil {
 		return err
