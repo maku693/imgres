@@ -39,7 +39,7 @@ func FitSize(src image.Point, tgt image.Point, fit Fit) (image.Point, error) {
 	case Cover:
 		f = coverer
 	default:
-		return image.Point{}, fmt.Errorf("invalid fit: %s", fit)
+		return image.Point{}, fmt.Errorf("resizer: invalid fit: %s", fit)
 	}
 
 	scale := f(src, tgt)

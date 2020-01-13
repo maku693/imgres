@@ -12,7 +12,7 @@ import (
 
 func Resize(in string, out string, width int, height int, fit string) error {
 	if width <= 0 && height <= 0 {
-		return errors.New("either width or height must be provided and non-zero")
+		return errors.New("resizer: either width or height must be provided and non-zero")
 	}
 
 	inFile, err := InFile(in)
@@ -53,6 +53,6 @@ func Resize(in string, out string, width int, height int, fit string) error {
 	case "png":
 		return ScalePNG(inFile, outFile, bounds)
 	default:
-		return fmt.Errorf("invalid format: %s", format)
+		return fmt.Errorf("resizer: invalid format: %s", format)
 	}
 }
