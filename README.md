@@ -15,15 +15,15 @@ go get -u github.com/maku693/imgres
 ```
 Usage of imgres:
   -fit string
-        fitting of scaled image (default "contain")
+        fitting of scaled image ("contain" or "cover") (default "contain")
   -height int
-        max height of out file
+        max height of output file
   -in string
         input file (optional, default stdin)
   -out string
-        out file (optional, default stdout)
+        output file (optional, default stdout)
   -width int
-        max width of out file
+        max width of output file
 ```
 
 #### Examples
